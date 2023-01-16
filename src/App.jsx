@@ -4,6 +4,7 @@ import Header from './components/Header'
 
 const App = () => {
   const [presupuesto, setPresupuesto] = useState(0);
+  const [isValidPresupuesto, setIsValidPresupuesto] = useState(false);
  
 
   return (
@@ -12,6 +13,8 @@ const App = () => {
         <Header
           presupuesto={presupuesto}
           setPresupuesto={setPresupuesto}
+          isValidPresupuesto={isValidPresupuesto}
+          setIsValidPresupuesto={setIsValidPresupuesto}
         />
       
       </div>
