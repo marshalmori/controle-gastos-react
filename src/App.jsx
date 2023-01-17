@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import Header from './components/Header';
+import ListadoGastos from './components/ListadoGastos';
 import Modal from './components/Modal';
 import { generarId } from './helpers';
 import IconoNuevoGasto from './assets/img/nuevo-gasto.svg';
@@ -21,6 +22,7 @@ const App = () => {
 
   const guardarGasto = gasto => {
     gasto.id = generarId();
+    gasto.fecha = Date.now();
     setGastos([...gastos, gasto]);
 
     setAnimarModal(false);
@@ -41,13 +43,18 @@ const App = () => {
         />
 
         {isValidPresupuesto && (
-          <div className="nuevo-gasto">
-            <img 
-              src={IconoNuevoGasto} 
-              alt="Adicionar novo gasto"
-              onClick={handleNuevoGasto}
-            />
-          </div>
+          <Fragment>
+            <main>
+              <ListadoGastos gastos={gastos}/>
+            </main>
+            <div className="nuevo-gasto">
+              <img 
+                src={IconoNuevoGasto} 
+                alt="Adicionar novo gasto"
+                onClick={handleNuevoGasto}
+              />
+            </div>
+          </Fragment>
         )}
 
         {modal && <Modal 
