@@ -1,4 +1,4 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import Header from './components/Header';
 import ListadoGastos from './components/ListadoGastos';
 import Modal from './components/Modal';
@@ -11,6 +11,13 @@ const App = () => {
   const [modal, setModal] = useState(false);
   const [animarModal, setAnimarModal] = useState(false);
   const [gastos, setGastos] = useState([]);
+  const [gastoEditar, setGastoEditar] = useState({});
+
+  useEffect(() => {
+    if( Object.keys(gastoEditar).length > 0){
+      handleNuevoGasto();
+    }
+  }, [gastoEditar])
 
   const handleNuevoGasto = () => {
     setModal(true);
@@ -46,7 +53,10 @@ const App = () => {
         {isValidPresupuesto && (
           <Fragment>
             <main>
-              <ListadoGastos gastos={gastos}/>
+              <ListadoGastos 
+                gastos={gastos}
+                setGastoEditar={setGastoEditar}
+              />
             </main>
             <div className="nuevo-gasto">
               <img 
