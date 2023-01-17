@@ -1,6 +1,11 @@
+import { useState } from 'react';
 import CerrarBtn from '../assets/img/cerrar.svg';
 
 const Modal = ({setModal, animarModal, setAnimarModal}) => {
+
+    const [nombre, setNombre] = useState('');
+    const [cantidad, setCantidad] = useState('');
+    const [categoria, setCategoria] = useState('');
 
     const ocultarModal = () => {
         setAnimarModal(false);
@@ -8,9 +13,6 @@ const Modal = ({setModal, animarModal, setAnimarModal}) => {
         setTimeout(() => {
             setModal(false);
         }, 500)
-        
-
-
     }
 
   return (
@@ -32,6 +34,8 @@ const Modal = ({setModal, animarModal, setAnimarModal}) => {
                     id="nombre"
                     type="text"
                     placeholder='Adicione o Gasto'
+                    value={nombre}
+                    onChange={e => setNombre(e.target.value)}
                 />
             </div>
             <div className="campo">
@@ -40,11 +44,14 @@ const Modal = ({setModal, animarModal, setAnimarModal}) => {
                     id="cantidad"
                     type="number"
                     placeholder='Adicione a Quantidade'
+                    value={cantidad}
+                    onChange={e => setCantidad(Number(e.target.value))}
+
                 />
             </div>
             <div className="campo">
                 <label htmlFor="categoria">Categoria</label>
-                <select id="categoria">
+                <select id="categoria" value={categoria} onChange={e => setCategoria(e.target.value)}>
                     <option value="">--Selecionar--</option>
                     <option value="ahorro">Poupança</option>
                     <option value="comida">Comida</option>
