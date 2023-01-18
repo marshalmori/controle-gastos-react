@@ -1,9 +1,9 @@
-import { Fragment, useEffect, useState } from 'react';
-import Header from './components/Header';
-import ListadoGastos from './components/ListadoGastos';
-import Modal from './components/Modal';
-import { generarId } from './helpers';
-import IconoNuevoGasto from './assets/img/nuevo-gasto.svg';
+import { Fragment, useEffect, useState } from "react";
+import Header from "./components/Header";
+import ListadoGastos from "./components/ListadoGastos";
+import Modal from "./components/Modal";
+import { generarId } from "./helpers";
+import IconoNuevoGasto from "./assets/img/nuevo-gasto.svg";
 
 const App = () => {
   const [presupuesto, setPresupuesto] = useState(0);
@@ -14,14 +14,14 @@ const App = () => {
   const [gastoEditar, setGastoEditar] = useState({});
 
   useEffect(() => {
-    if( Object.keys(gastoEditar).length > 0){
+    if (Object.keys(gastoEditar).length > 0) {
       setModal(true);
-       
+
       setTimeout(() => {
         setAnimarModal(true);
-      }, 500)
+      }, 500);
     }
-  }, [gastoEditar])
+  }, [gastoEditar]);
 
   const handleNuevoGasto = () => {
     setModal(true);
@@ -29,18 +29,16 @@ const App = () => {
 
     setTimeout(() => {
       setAnimarModal(true);
-    }, 500)
-  }
+    }, 500);
+  };
 
-  const guardarGasto = gasto => {
-
-    if(gasto.id){
+  const guardarGasto = (gasto) => {
+    if (gasto.id) {
       //Atualizar
-      const gastosActualizados = gastos.map(
-        gastoState => gastoState.id === gasto.id ? gasto : gastoState
+      const gastosActualizados = gastos.map((gastoState) =>
+        gastoState.id === gasto.id ? gasto : gastoState
       );
       setGastos(gastosActualizados);
-
     } else {
       // Novo gasto
       gasto.id = generarId();
@@ -50,52 +48,55 @@ const App = () => {
 
     setAnimarModal(false);
     setTimeout(() => {
-      setModal(false)
+      setModal(false);
     }, 500);
-  }
- 
+  };
+
+  const eliminarGasto = (id) => {
+    const gastosActualizados = gastos.filter((gasto) => gasto.id !== id);
+    setGastos(gastosActualizados);
+  };
 
   return (
-    
-      <div className={modal ? 'fijar' : ''}>
-        <Header
-          gastos={gastos}
-          presupuesto={presupuesto}
-          setPresupuesto={setPresupuesto}
-          isValidPresupuesto={isValidPresupuesto}
-          setIsValidPresupuesto={setIsValidPresupuesto}
+    <div className={modal ? "fijar" : ""}>
+      <Header
+        gastos={gastos}
+        presupuesto={presupuesto}
+        setPresupuesto={setPresupuesto}
+        isValidPresupuesto={isValidPresupuesto}
+        setIsValidPresupuesto={setIsValidPresupuesto}
+      />
+
+      {isValidPresupuesto && (
+        <Fragment>
+          <main>
+            <ListadoGastos
+              gastos={gastos}
+              setGastoEditar={setGastoEditar}
+              eliminarGasto={eliminarGasto}
+            />
+          </main>
+          <div className="nuevo-gasto">
+            <img
+              src={IconoNuevoGasto}
+              alt="Adicionar novo gasto"
+              onClick={handleNuevoGasto}
+            />
+          </div>
+        </Fragment>
+      )}
+
+      {modal && (
+        <Modal
+          setModal={setModal}
+          animarModal={animarModal}
+          setAnimarModal={setAnimarModal}
+          guardarGasto={guardarGasto}
+          gastoEditar={gastoEditar}
         />
+      )}
+    </div>
+  );
+};
 
-        {isValidPresupuesto && (
-          <Fragment>
-            <main>
-              <ListadoGastos 
-                gastos={gastos}
-                setGastoEditar={setGastoEditar}
-              />
-            </main>
-            <div className="nuevo-gasto">
-              <img 
-                src={IconoNuevoGasto} 
-                alt="Adicionar novo gasto"
-                onClick={handleNuevoGasto}
-              />
-            </div>
-          </Fragment>
-        )}
-
-        {modal && <Modal 
-                    setModal={setModal} 
-                    animarModal={animarModal}
-                    setAnimarModal={setAnimarModal}
-                    guardarGasto={guardarGasto}
-                    gastoEditar={gastoEditar}
-                  />}
-        
-      
-      </div>
-    
-  )
-}
-
-export default App
+export default App;
