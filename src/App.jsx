@@ -20,7 +20,7 @@ const App = () => {
   );
   const [gastoEditar, setGastoEditar] = useState({});
   const [filtro, setFiltro] = useState("");
-  const [gastosFiltrados, setGastoFiltrados] = useState([]);
+  const [gastosFiltrados, setGastosFiltrados] = useState([]);
 
   useEffect(() => {
     if (Object.keys(gastoEditar).length > 0) {
@@ -111,6 +111,8 @@ const App = () => {
               gastos={gastos}
               setGastoEditar={setGastoEditar}
               eliminarGasto={eliminarGasto}
+              filtro={filtro}
+              gastosFiltrados={gastosFiltrados}
             />
           </main>
           <div className="nuevo-gasto">
